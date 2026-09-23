@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Biblioteca VTuber</title>
+
+  <!-- Arquivo CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <nav class="topnav">
+    <button class="tab-btn active" onclick="openTab(event, 'inicio')">
+      Início
+    </button>
+
+    <button class="tab-btn" onclick="openTab(event, 'TikTok')">
+      TikTok
+    </button>
+
+    <button class="tab-btn" onclick="openTab(event, 'YouTube')">
+      YouTube
+    </button>
+
+    <button class="tab-btn" onclick="openTab(event, 'Twitch')">
+      Twitch
+    </button>
+
+    <button class="tab-btn" onclick="openTab(event, 'kick')">
+      Kick
+    </button>
+  </nav>
+
+  <!-- INÍCIO -->
+  <section id="inicio" class="tab-content active">
+    <div class="inicio-card">
+      <h1>Biblioteca VTuber</h1>
+
+      <p>
+        Pesquise e encontre VTubers e PNGTubers cadastrados na Biblioteca VTuber.
+      </p>
+    </div>
+
+    <div id="total-vtubers" class="total-vtubers">
+      0 VTubers na Biblioteca
+    </div>
+  </section>
+
+  <!-- TIKTOK -->
+  <section id="TikTok" class="tab-content">
+    <div class="search-container">
+
+      <div class="pais-selector">
+        <h3>Escolha seu País</h3>
+
+        <div class="pais-buttons">
+          <button class="pais-btn brasil"
+            onclick="carregarPlataforma('TikTok', 'tiktok', 'brasil', 'TikTok', this)">
+            <img src="brasil_flag.jpg" alt="Brasil">
+            Brasil
+          </button>
+
+          <button class="pais-btn portugal"
+            onclick="carregarPlataforma('TikTok', 'tiktok', 'portugal', 'TikTok', this)">
+            <img src="portugal_flag.jpg" alt="Portugal">
+            Portugal
+          </button>
+
+          <button class="pais-btn inglaterra"
+            onclick="carregarPlataforma('TikTok', 'tiktok', 'inglaterra', 'TikTok', this)">
+            <img src="Inglaterra.jpg" alt="Inglaterra">
+            Inglaterra
+          </button>
+
+          <button class="pais-btn australia"
+            onclick="carregarPlataforma('TikTok', 'tiktok', 'australia', 'TikTok', this)">
+            <img src="australia_flag.jpeg" alt="Austrália">
+            Austrália
+          </button>
+
+          <button class="pais-btn indonesia"
+            onclick="carregarPlataforma('TikTok', 'tiktok', 'indonesia', 'TikTok', this)">
+            <img src="indonesia_flag.jpg" alt="Indonésia">
+            Indonésia
+          </button>
+
+          <button class="pais-btn franca"
+            onclick="carregarPlataforma('TikTok', 'tiktok', 'franca', 'TikTok', this)">
+            <img src="franca_flag.jpg" alt="França">
+            França
+          </button>
+
+          <button class="pais-btn lituania"
+            onclick="carregarPlataforma('TikTok', 'tiktok', 'lituania', 'TikTok', this)">
+            <img src="lituania_flag.jpeg" alt="Lituânia">
+            Lituânia
+          </button>
+
+          <button class="pais-btn usa"
+            onclick="carregarPlataforma('TikTok', 'tiktok', 'usa', 'TikTok', this)">
+            <img src="usa_flag.jpeg" alt="Estados Unidos">
+            USA
+          </button>
+        </div>
+      </div>
+
+      <!-- PESQUISA: FICA ACIMA DO ALFABETO -->
+      <div class="search-google">
+        <label class="search-google-label" for="pesquisa-google-tiktok">
+          🔎 Pesquise um VTuber ou PNGTuber
+        </label>
+
+        <div class="search-google-box">
+          <input
+            id="pesquisa-google-tiktok"
+            class="search-google-input"
+            type="search"
+            placeholder="Digite o nome do VTuber ou PNGTuber..."
+            autocomplete="off"
+            oninput="pesquisarGoogleVTuber('tiktok')"
+            onfocus="pesquisarGoogleVTuber('tiktok')"
+          >
+
+          <span class="search-google-icon">🔍</span>
+
+          <div
+            id="resultados-google-tiktok"
+            class="search-google-resultados">
+          </div>
+        </div>
+
+        <div class="search-google-aviso">
+          Digite um nome para pesquisar na Biblioteca VTuber.
+        </div>
+      </div>
+
+      <div id="search-letras-tiktok" class="search-letras"></div>
+      <div id="search-result-tiktok" class="search-result"></div>
+      <div id="vtuber-grid-tiktok" class="vtuber-grid"></div>
+    </div>
+  </section>
+
+  <!-- YOUTUBE -->
+  <section id="YouTube" class="tab-content">
+    <div class="search-container">
+
+      <div class="pais-selector">
+        <h3>Escolha seu País</h3>
+
+        <div class="pais-buttons">
+          <button class="pais-btn brasil"
+            onclick="carregarPlataforma('YouTube', 'youtube', 'brasil', 'YouTube', this)">
+            <img src="brasil_flag.jpg" alt="Brasil">
+            Brasil
+          </button>
+
+          <button class="pais-btn portugal"
+            onclick="carregarPlataforma('YouTube', 'youtube', 'portugal', 'YouTube', this)">
+            <img src="portugal_flag.jpg" alt="Portugal">
+            Portugal
+          </button>
+
+          <button class="pais-btn inglaterra"
+            onclick="carregarPlataforma('YouTube', 'youtube', 'inglaterra', 'YouTube', this)">
+            <img src="Inglaterra.jpg" alt="Inglaterra">
+            Inglaterra
+          </button>
+
+          <button class="pais-btn australia"
+            onclick="carregarPlataforma('YouTube', 'youtube', 'australia', 'YouTube', this)">
+            <img src="australia_flag.jpeg" alt="Austrália">
+            Austrália
+          </button>
+
+          <button class="pais-btn indonesia"
+            onclick="carregarPlataforma('YouTube', 'youtube', 'indonesia', 'YouTube', this)">
+            <img src="indonesia_flag.jpg" alt="Indonésia">
+            Indonésia
+          </button>
+
+          <button class="pais-btn franca"
+            onclick="carregarPlataforma('YouTube', 'youtube', 'franca', 'YouTube', this)">
+            <img src="franca_flag.jpg" alt="França">
+            França
+          </button>
+
+          <button class="pais-btn lituania"
+            onclick="carregarPlataforma('YouTube', 'youtube', 'lituania', 'YouTube', this)">
+            <img src="lituania_flag.jpeg" alt="Lituânia">
+            Lituânia
+          </button>
+
+          <button class="pais-btn usa"
+            onclick="carregarPlataforma('YouTube', 'youtube', 'usa', 'YouTube', this)">
+            <img src="usa_flag.jpeg" alt="Estados Unidos">
+            USA
+          </button>
+        </div>
+      </div>
+
+      <!-- PESQUISA: FICA ACIMA DO ALFABETO -->
+      <div class="search-google">
+        <label class="search-google-label" for="pesquisa-google-youtube">
+          🔎 Pesquise um VTuber ou PNGTuber
+        </label>
+
+        <div class="search-google-box">
+          <input
+            id="pesquisa-google-youtube"
+            class="search-google-input"
+            type="search"
+            placeholder="Digite o nome do VTuber ou PNGTuber..."
+            autocomplete="off"
+            oninput="pesquisarGoogleVTuber('youtube')"
+            onfocus="pesquisarGoogleVTuber('youtube')"
+          >
+
+          <span class="search-google-icon">🔍</span>
+
+          <div
+            id="resultados-google-youtube"
+            class="search-google-resultados">
+          </div>
+        </div>
+
+        <div class="search-google-aviso">
+          Digite um nome para pesquisar na Biblioteca VTuber.
+        </div>
+      </div>
+
+      <div id="search-letras-youtube" class="search-letras"></div>
+      <div id="search-result-youtube" class="search-result"></div>
+      <div id="vtuber-grid-youtube" class="vtuber-grid"></div>
+    </div>
+  </section>
+
+  <!-- TWITCH -->
+  <section id="Twitch" class="tab-content">
+    <div class="search-container">
+
+      <div class="pais-selector">
+        <h3>Escolha seu País</h3>
+
+        <div class="pais-buttons">
+          <button class="pais-btn brasil"
+            onclick="carregarPlataforma('Twitch', 'twitch', 'brasil', 'Twitch', this)">
+            <img src="brasil_flag.jpg" alt="Brasil">
+            Brasil
+          </button>
+
+          <button class="pais-btn portugal"
+            onclick="carregarPlataforma('Twitch', 'twitch', 'portugal', 'Twitch', this)">
+            <img src="portugal_flag.jpg" alt="Portugal">
+            Portugal
+          </button>
+
+          <button class="pais-btn inglaterra"
+            onclick="carregarPlataforma('Twitch', 'twitch', 'inglaterra', 'Twitch', this)">
+            <img src="Inglaterra.jpg" alt="Inglaterra">
+            Inglaterra
+          </button>
+
+          <button class="pais-btn australia"
+            onclick="carregarPlataforma('Twitch', 'twitch', 'australia', 'Twitch', this)">
+            <img src="australia_flag.jpeg" alt="Austrália">
+            Austrália
+          </button>
+
+          <button class="pais-btn indonesia"
+            onclick="carregarPlataforma('Twitch', 'twitch', 'indonesia', 'Twitch', this)">
+            <img src="indonesia_flag.jpg" alt="Indonésia">
+            Indonésia
+          </button>
+
+          <button class="pais-btn franca"
+            onclick="carregarPlataforma('Twitch', 'twitch', 'franca', 'Twitch', this)">
+            <img src="franca_flag.jpg" alt="França">
+            França
+          </button>
+
+          <button class="pais-btn lituania"
+            onclick="carregarPlataforma('Twitch', 'twitch', 'lituania', 'Twitch', this)">
+            <img src="lituania_flag.jpeg" alt="Lituânia">
+            Lituânia
+          </button>
+
+          <button class="pais-btn usa"
+            onclick="carregarPlataforma('Twitch', 'twitch', 'usa', 'Twitch', this)">
+            <img src="usa_flag.jpeg" alt="Estados Unidos">
+            USA
+          </button>
+        </div>
+      </div>
+
+      <!-- PESQUISA: FICA ACIMA DO ALFABETO -->
+      <div class="search-google">
+        <label class="search-google-label" for="pesquisa-google-twitch">
+          🔎 Pesquise um VTuber ou PNGTuber
+        </label>
+
+        <div class="search-google-box">
+          <input
+            id="pesquisa-google-twitch"
+            class="search-google-input"
+            type="search"
+            placeholder="Digite o nome do VTuber ou PNGTuber..."
+            autocomplete="off"
+            oninput="pesquisarGoogleVTuber('twitch')"
+            onfocus="pesquisarGoogleVTuber('twitch')"
+          >
+
+          <span class="search-google-icon">🔍</span>
+
+          <div
+            id="resultados-google-twitch"
+            class="search-google-resultados">
+          </div>
+        </div>
+
+        <div class="search-google-aviso">
+          Digite um nome para pesquisar na Biblioteca VTuber.
+        </div>
+      </div>
+
+      <div id="search-letras-twitch" class="search-letras"></div>
+      <div id="search-result-twitch" class="search-result"></div>
+      <div id="vtuber-grid-twitch" class="vtuber-grid"></div>
+    </div>
+  </section>
+
+  <!-- KICK -->
+  <section id="kick" class="tab-content">
+    <div class="search-container">
+
+      <div class="pais-selector">
+        <h3>Escolha seu País</h3>
+
+        <div class="pais-buttons">
+          <button class="pais-btn brasil"
+            onclick="carregarPlataforma('kick', 'kick', 'brasil', 'Kick', this)">
+            <img src="brasil_flag.jpg" alt="Brasil">
+            Brasil
+          </button>
+
+          <button class="pais-btn portugal"
+            onclick="carregarPlataforma('kick', 'kick', 'portugal', 'Kick', this)">
+            <img src="portugal_flag.jpg" alt="Portugal">
+            Portugal
+          </button>
+
+          <button class="pais-btn inglaterra"
+            onclick="carregarPlataforma('kick', 'kick', 'inglaterra', 'Kick', this)">
+            <img src="Inglaterra.jpg" alt="Inglaterra">
+            Inglaterra
+          </button>
+
+          <button class="pais-btn australia"
+            onclick="carregarPlataforma('kick', 'kick', 'australia', 'Kick', this)">
+            <img src="australia_flag.jpeg" alt="Austrália">
+            Austrália
+          </button>
+
+          <button class="pais-btn indonesia"
+            onclick="carregarPlataforma('kick', 'kick', 'indonesia', 'Kick', this)">
+            <img src="indonesia_flag.jpg" alt="Indonésia">
+            Indonésia
+          </button>
+
+          <button class="pais-btn franca"
+            onclick="carregarPlataforma('kick', 'kick', 'franca', 'Kick', this)">
+            <img src="franca_flag.jpg" alt="França">
+            França
+          </button>
+
+          <button class="pais-btn lituania"
+            onclick="carregarPlataforma('kick', 'kick', 'lituania', 'Kick', this)">
+            <img src="lituania_flag.jpeg" alt="Lituânia">
+            Lituânia
+          </button>
+
+          <button class="pais-btn usa"
+            onclick="carregarPlataforma('kick', 'kick', 'usa', 'Kick', this)">
+            <img src="usa_flag.jpeg" alt="Estados Unidos">
+            USA
+          </button>
+        </div>
+      </div>
+
+      <!-- PESQUISA: FICA ACIMA DO ALFABETO -->
+      <div class="search-google">
+        <label class="search-google-label" for="pesquisa-google-kick">
+          🔎 Pesquise um VTuber ou PNGTuber
+        </label>
+
+        <div class="search-google-box">
+          <input
+            id="pesquisa-google-kick"
+            class="search-google-input"
+            type="search"
+            placeholder="Digite o nome do VTuber ou PNGTuber..."
+            autocomplete="off"
+            oninput="pesquisarGoogleVTuber('kick')"
+            onfocus="pesquisarGoogleVTuber('kick')"
+          >
+
+          <span class="search-google-icon">🔍</span>
+
+          <div
+            id="resultados-google-kick"
+            class="search-google-resultados">
+          </div>
+        </div>
+
+        <div class="search-google-aviso">
+          Digite um nome para pesquisar na Biblioteca VTuber.
+        </div>
+      </div>
+
+      <div id="search-letras-kick" class="search-letras"></div>
+      <div id="search-result-kick" class="search-result"></div>
+      <div id="vtuber-grid-kick" class="vtuber-grid"></div>
+    </div>
+  </section>
+
+  <!-- Arquivo JavaScript: fica no final do body -->
+  <script src="script.js"></script>
+</body>
+</html>
