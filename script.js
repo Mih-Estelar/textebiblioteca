@@ -5569,11 +5569,24 @@ avatar: 'lekozito_avatar.jpeg'
   pais: 'brasil',
   founder: false,
   description: 'VTuber',
-  tiktok: 'https://www.tiktok.com/@enchnatedbrasil',
+  tiktok: 'https://www.tiktok.com/@enchantedbrasilvt?_r=1&_t=ZS-9A2ie4nVk2y',
   youtube: 'https://www.youtube.com/@enchantedbrasilvt',
   twitch: 'https://www.twitch.tv/EnchantedBrasilVT',
   kick: '',
   avatar: 'enchanted_brasil.jpeg'
+},
+
+{
+  id: 139,
+  name: 'Pokkkayden',
+  pais: 'brasil',
+  founder: false,
+  description: 'VTuber',
+  tiktok: 'https://www.tiktok.com/@pokkkayden',
+  youtube: 'https://youtube.com/@pokkkayden',
+  twitch: 'https://www.twitch.tv/pokkkayden',
+  kick: '',
+  avatar: 'pokkkayden.jpeg'
 },
 ];
 
