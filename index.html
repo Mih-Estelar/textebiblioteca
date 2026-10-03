@@ -2,112 +2,859 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <title>A Biblioteca VTuber Ajuda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Biblioteca VTuber</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-  <!-- Arquivo CSS -->
-  <link rel="stylesheet" href="style.css">
+    body {
+      margin: 0;
+      background: #F7F1E7;
+      color: #2c2033;
+      font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    }
+
+    /* Loading */
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #ff2399;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      color: #fff;
+    }
+
+    #loading-screen .mascote {
+      width: 180px;
+      margin-bottom: 32px;
+      border-radius: 50%;
+      box-shadow: 0 0 26px #fff8d8;
+    }
+
+    #loading-screen .loader {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 14px;
+      border: 8px solid rgba(255, 255, 255, .15);
+      border-top: 8px solid #fff;
+      border-radius: 50%;
+      animation: spin 1.2s linear infinite;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #loading-screen .texto {
+      margin-top: 12px;
+      font-size: 1.3em;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-align: center;
+      text-shadow: 0 2px 5px #bc1b70;
+    }
+
+    /* Navegação */
+    .topnav {
+      position: relative;
+      z-index: 50;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      overflow-x: auto;
+      background: #fff;
+      box-shadow: 0 4px 0 #2c2033;
+    }
+
+    .tab-btn {
+      flex: 1 1 0;
+      min-width: 90px;
+      padding: 18px 10px;
+      border: none;
+      border-bottom: 5px solid transparent;
+      outline: none;
+      background: none;
+      color: #2c2033;
+      font-family: inherit;
+      font-size: 1.05em;
+      font-weight: 900;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background .25s ease, color .2s ease;
+    }
+
+    .tab-btn.active {
+      border-bottom-color: #ff2399;
+      background: #f7f1e7;
+      color: #ff2399;
+    }
+
+    .tab-content {
+      display: none;
+      padding: 20px 0;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Cards principais */
+    .main-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 390px;
+      margin: 25px auto 35px;
+      padding: 60px 20px 20px;
+      border: 6px solid #ff2399;
+      border-radius: 22px;
+      background: #2c2033;
+      color: #fff;
+      box-shadow: 0 8px 0 #7955ce;
+    }
+
+    .main-card .avatar-hero {
+      width: 180px;
+      height: 180px;
+      margin-bottom: 16px;
+      border: 6px solid #fff;
+      border-radius: 18px;
+      object-fit: cover;
+      box-shadow: 2px 6px 0 #ff2399;
+    }
+
+    .main-card .nome-vtuber {
+      margin-bottom: 12px;
+      padding: 5px 20px;
+      border-radius: 8px;
+      background: linear-gradient(45deg, #ff2399, #7955ce);
+      color: #fff;
+      font-size: 2em;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-align: center;
+      box-shadow: 2px 4px 0 #7955ce;
+    }
+
+    .main-card .mensagem {
+      max-width: 300px;
+      margin: 0 auto 14px;
+      padding: 17px 12px 15px;
+      border-radius: 10px;
+      background: #fff;
+      color: #2c2033;
+      font-size: 1.05em;
+      line-height: 1.5;
+      text-align: center;
+      box-shadow: 0 3px 0 #ff2399;
+    }
+
+    .redes-sociais,
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .main-card .link-btn,
+    .social-links a {
+      display: inline-block;
+      padding: 10px 16px;
+      border-radius: 18px;
+      background: #7955ce;
+      color: #fff;
+      font-size: .9em;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 2px 4px 0 #ff2399;
+      transition: .2s ease;
+    }
+
+    .main-card .link-btn:hover,
+    .social-links a:hover {
+      transform: translateY(-2px);
+      background: #ff2399;
+      box-shadow: 3px 6px 0 #7955ce;
+    }
+
+    .badge {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      padding: 6px 15px;
+      border-radius: 12px;
+      transform: translateX(-50%);
+      background: #fff;
+      color: #ff2399;
+      font-size: 1.05em;
+      font-weight: 900;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      box-shadow: 2px 4px 0 #7955ce;
+    }
+
+    .total-vtubers {
+      max-width: 340px;
+      margin: 0 auto 40px;
+      padding: 20px 30px;
+      border-radius: 20px;
+      background: linear-gradient(45deg, #ff2399, #7955ce);
+      color: #fff;
+      font-size: 1.4em;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-align: center;
+      box-shadow: 0 8px 0 #2c2033;
+    }
+
+    /* Plataformas */
+    .search-container {
+      position: relative;
+      margin-bottom: 20px;
+      padding: 20px;
+      background: #fff;
+      text-align: center;
+      box-shadow: 0 4px 0 #2c2033;
+    }
+
+    .pais-selector {
+      max-width: 650px;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 25px;
+      background: linear-gradient(45deg, #ff2399, #7955ce);
+      text-align: center;
+      box-shadow: 0 8px 0 #2c2033;
+    }
+
+    .pais-selector h3 {
+      margin: 0 0 18px;
+      color: #fff;
+      font-size: 1.3em;
+      font-weight: 900;
+    }
+
+    .pais-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .pais-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 52px;
+      padding: 12px 20px;
+      border: 3px solid transparent;
+      border-radius: 25px;
+      background: #fff;
+      color: #2c2033;
+      font-family: inherit;
+      font-size: 1.05em;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 3px 6px 0 #ff2399;
+      transition: all .3s ease;
+    }
+
+    .pais-btn.brasil {
+      border-color: #00ff88;
+    }
+
+    .pais-btn.portugal {
+      border-color: #1e90ff;
+    }
+
+    .pais-btn.inglaterra,
+    .pais-btn.australia,
+    .pais-btn.indonesia,
+    .pais-btn.lituania {
+      border-color: #012169;
+    }
+
+    .pais-btn.franca {
+      border-color: #0055a4;
+    }
+
+    .pais-btn.usa {
+      border-color: #dc143c;
+    }
+
+    .pais-btn img.bandera {
+      width: 32px;
+      height: 24px;
+      border-radius: 4px;
+      object-fit: cover;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+    }
+
+    .pais-btn:hover,
+    .pais-btn.active {
+      transform: translateY(-3px);
+      background: linear-gradient(45deg, #ff2399, #7955ce);
+      color: #fff;
+      box-shadow: 5px 9px 0 #7955ce;
+    }
+
+    /* PESQUISA ESTILO GOOGLE */
+    .search-google {
+      position: relative;
+      width: min(620px, 100%);
+      margin: 26px auto 20px;
+      text-align: left;
+    }
+
+    .search-google-label {
+      display: block;
+      margin-bottom: 10px;
+      color: #2c2033;
+      font-size: 1.1em;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .search-google-box {
+      position: relative;
+    }
+
+    .search-google-input {
+      display: block;
+      width: 100%;
+      height: 58px;
+      padding: 0 60px 0 20px;
+      border: 4px solid #7955ce;
+      border-radius: 30px;
+      outline: none;
+      background: #fff;
+      color: #2c2033;
+      font-family: inherit;
+      font-size: 1.05em;
+      font-weight: 700;
+      box-shadow: 3px 5px 0 #ff2399;
+    }
+
+    .search-google-input:focus {
+      border-color: #ff2399;
+      box-shadow: 4px 7px 0 #7955ce;
+    }
+
+    .search-google-icon {
+      position: absolute;
+      top: 50%;
+      right: 19px;
+      transform: translateY(-50%);
+      font-size: 1.4em;
+      pointer-events: none;
+    }
+
+    .search-google-resultados {
+      position: absolute;
+      z-index: 500;
+      top: calc(100% + 10px);
+      right: 0;
+      left: 0;
+      display: none;
+      max-height: 330px;
+      overflow-y: auto;
+      padding: 8px;
+      border: 3px solid #ff2399;
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 8px 0 #2c2033;
+    }
+
+    .search-google-resultados.mostrar {
+      display: block;
+    }
+
+    .search-google-opcao {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      min-height: 62px;
+      padding: 10px;
+      border: none;
+      border-radius: 12px;
+      background: #fff;
+      color: #2c2033;
+      font-family: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .search-google-opcao:hover {
+      background: linear-gradient(45deg, #ff2399, #7955ce);
+      color: #fff;
+    }
+
+    .search-google-opcao img {
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+      border: 2px solid #ff2399;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .search-google-opcao-nome {
+      display: block;
+      font-size: 1.04em;
+      font-weight: 900;
+    }
+
+    .search-google-opcao-info {
+      display: block;
+      margin-top: 3px;
+      color: #7955ce;
+      font-size: .8em;
+      font-weight: 800;
+    }
+
+    .search-google-opcao:hover .search-google-opcao-info {
+      color: #fff;
+    }
+
+    .search-google-nenhum {
+      padding: 17px;
+      border-radius: 12px;
+      background: #fff0f8;
+      color: #2c2033;
+      font-weight: 700;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .search-google-nenhum strong {
+      color: #ff2399;
+    }
+
+    /* Letras */
+    .search-letras {
+      display: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin: 18px auto;
+    }
+
+    .search-letras.mostrar {
+      display: flex !important;
+    }
+
+    .letra-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 45px;
+      height: 45px;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(45deg, #ff2399, #7955ce);
+      color: #fff;
+      font-family: inherit;
+      font-size: 1.1em;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 2px 4px 0 #2c2033;
+    }
+
+    .letra-btn:hover,
+    .letra-btn.active {
+      transform: translateY(-2px);
+      background: linear-gradient(45deg, #7955ce, #ff2399);
+      box-shadow: 4px 8px 0 #7955ce;
+    }
+
+    .letra-btn.todas {
+      background: #2c2033;
+      box-shadow: 2px 4px 0 #ff2399;
+    }
+
+    .search-result {
+      display: none;
+      min-height: 25px;
+      margin: 10px 0;
+      color: #ff2399;
+      font-size: 1.1em;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .search-result.mostrar {
+      display: block !important;
+    }
+
+    /* Cards */
+    .vtuber-grid {
+      display: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .vtuber-grid.mostrar {
+      display: flex !important;
+    }
+
+    .vtuber-card,
+    .parceria-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 240px;
+      margin: 10px;
+      padding: 20px;
+      border: 4px solid #7955ce;
+      border-radius: 12px;
+      background: #fff;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(44, 32, 51, .15);
+      transition: .3s ease;
+    }
+
+    .parceria-card {
+      margin: 25px auto;
+      border-color: #ff2399;
+    }
+
+    .vtuber-card:hover,
+    .parceria-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 32px rgba(255, 35, 153, .25);
+    }
+
+    .vtuber-avatar,
+    .parceria-avatar {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 12px;
+      border: 4px solid #ff2399;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    .vtuber-name,
+    .parceria-nome {
+      margin-bottom: 12px;
+      color: #ff2399;
+      font-size: 1.2em;
+      font-weight: 900;
+    }
+
+    .parceria-nome {
+      color: #7955ce;
+    }
+
+    .vtuber-description {
+      margin-bottom: 12px;
+      color: #2c2033;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .vtuber-card.card-destacado {
+      animation: destacarCard 1.8s ease;
+    }
+
+    @keyframes destacarCard {
+      0%,
+      100% {
+        transform: translateY(0);
+        border-color: #7955ce;
+      }
+
+      25%,
+      55% {
+        transform: translateY(-9px) scale(1.03);
+        border-color: #ff2399;
+        box-shadow:
+          0 0 0 7px rgba(255, 35, 153, .22),
+          0 16px 32px rgba(255, 35, 153, .35);
+      }
+    }
+
+    .doar-card {
+      padding-top: 70px;
+    }
+
+    .parceria-aviso {
+      position: relative;
+      max-width: 420px;
+      margin: 25px auto 35px;
+      padding: 25px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #ff2399 0%, #7955ce 100%);
+      color: #fff;
+      text-align: center;
+      box-shadow: 0 12px 0 #2c2033;
+    }
+
+    .parceria-aviso .preco {
+      margin-bottom: 10px;
+      font-size: 2.2em;
+      font-weight: 900;
+    }
+
+    .parceria-aviso .texto {
+      margin: 0;
+      font-size: 1.2em;
+      font-weight: 700;
+    }
+
+    .aviso-vazio {
+      width: min(560px, 95%);
+      margin: 20px auto;
+      padding: 16px;
+      border: 3px solid #ff2399;
+      border-radius: 15px;
+      background: #fff0f8;
+      color: #2c2033;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .tab-btn {
+        min-width: 84px;
+        padding: 14px 8px;
+        font-size: .9em;
+      }
+
+      .pais-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .pais-btn {
+        width: 185px;
+        justify-content: center;
+      }
+
+      .main-card {
+        max-width: 90vw;
+        padding: 55px 15px 15px;
+      }
+
+      .main-card .avatar-hero {
+        width: 130px;
+        height: 130px;
+      }
+
+      .search-google {
+        width: 92%;
+      }
+
+      .search-google-input {
+        height: 54px;
+        font-size: .96em;
+      }
+
+      .vtuber-card,
+      .parceria-card {
+        width: 200px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
+  <!-- Loading -->
+  <div id="loading-screen">
+    <img src="1000417115.png" alt="Mascote" class="mascote">
+    <div class="loader"></div>
+    <div class="texto">Carregando Biblioteca VTuber...</div>
+  </div>
+
+  <!-- Navegação -->
   <nav class="topnav">
-    <button class="tab-btn active" onclick="openTab(event, 'inicio')">
-      Início
-    </button>
-
-    <button class="tab-btn" onclick="openTab(event, 'TikTok')">
-      TikTok
-    </button>
-
-    <button class="tab-btn" onclick="openTab(event, 'YouTube')">
-      YouTube
-    </button>
-
-    <button class="tab-btn" onclick="openTab(event, 'Twitch')">
-      Twitch
-    </button>
-
-    <button class="tab-btn" onclick="openTab(event, 'kick')">
-      Kick
-    </button>
+    <button class="tab-btn active" onclick="openTab(event, 'inicio')">Início</button>
+    <button class="tab-btn" onclick="openTab(event, 'TikTok')">TikTok</button>
+    <button class="tab-btn" onclick="openTab(event, 'YouTube')">YouTube</button>
+    <button class="tab-btn" onclick="openTab(event, 'Twitch')">Twitch</button>
+    <button class="tab-btn" onclick="openTab(event, 'kick')">Kick</button>
+    <button class="tab-btn" onclick="openTab(event, 'doar')">Doações</button>
+    <button class="tab-btn" onclick="openTab(event, 'parceria')">Parcerias</button>
   </nav>
 
   <!-- INÍCIO -->
-  <section id="inicio" class="tab-content active">
-    <div class="inicio-card">
-      <h1>Biblioteca VTuber</h1>
+  <div id="inicio" class="tab-content active">
 
-      <p>
-        Pesquise e encontre VTubers e PNGTubers cadastrados na Biblioteca VTuber.
-      </p>
+    <div class="main-card">
+      <div class="badge">⭐ VTUBER CRIADOR</div>
+
+      <img
+        src="oriel.jpeg"
+        alt="Avatar de Oriel Estelar"
+        class="avatar-hero"
+        loading="lazy"
+      >
+
+      <div class="nome-vtuber">Oriel Estelar</div>
+
+      <div class="mensagem">
+        Criei a Biblioteca VTuber para divulgar VTubers 3D, 2D e PNG,
+        porque sei o quanto é difícil ser reconhecido na internet.
+
+        <br><br>
+
+        A Biblioteca VTuber foi criada no dia 14/11/2025.
+        Eu me tornei VTuber no dia 25/02/2025.
+        Sou Michelle, uma pessoa autista com TDAH, nascida em 2007.
+
+        <br><br>
+
+        Sei que a fama não é algo fácil, mas ver cada pessoa feliz por ser
+        ajudada pelo projeto Biblioteca VTuber alegra muito o meu coração.
+      </div>
+
+      <div class="redes-sociais">
+        <a class="link-btn" href="https://www.tiktok.com/@mih_estelar" target="_blank" rel="noopener noreferrer">TikTok</a>
+        <a class="link-btn" href="https://www.youtube.com/@mih_estelar" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a class="link-btn" href="https://www.twitch.tv/mih_estelar" target="_blank" rel="noopener noreferrer">Twitch</a>
+      </div>
     </div>
 
-    <div id="total-vtubers" class="total-vtubers">
+    <div class="main-card">
+      <div class="badge">⭐ VTUBER AJUDANTE</div>
+
+      <img
+        src="Yuki27ll.jpeg"
+        alt="Avatar de Yuki Santoro Neves"
+        class="avatar-hero"
+        loading="lazy"
+      >
+
+      <div class="nome-vtuber">Yuki Santoro Neves</div>
+
+      <div class="mensagem">
+        Olá, eu sou Yuki Santoro Neves.
+
+        <br><br>
+
+        Sou designer e editor, apaixonado por criatividade,
+        identidade visual e produção de conteúdo impactante.
+
+        <br><br>
+
+        Atualmente, também atuo como analista de dados de contas da
+        Biblioteca VTuber.
+      </div>
+
+      <div class="redes-sociais">
+        <a class="link-btn" href="https://www.tiktok.com/@yuki_artesl" target="_blank" rel="noopener noreferrer">TikTok</a>
+      </div>
+    </div>
+
+    <div class="main-card">
+      <div class="badge">⭐ DIVULGADOR DA BIBLIOTECA</div>
+
+      <img
+        src="puck.jpeg"
+        alt="Avatar de Pu Puck"
+        class="avatar-hero"
+        loading="lazy"
+      >
+
+      <div class="nome-vtuber">Pu Puck</div>
+
+      <div class="mensagem">
+        Olá olá meus dragonites! Eu sou <strong>Pu Puck</strong>,
+        o dragão de oitom 🐲🐉
+
+        <br><br>
+
+        Sou o <strong>Divulgador da Biblioteca VTuber</strong>,
+        sempre trazendo novidades a cada atualização!
+      </div>
+
+      <div class="redes-sociais">
+        <a class="link-btn" href="https://www.tiktok.com/@puki_ow" target="_blank" rel="noopener noreferrer">TikTok</a>
+        <a class="link-btn" href="https://www.youtube.com/@PukiDragon" target="_blank" rel="noopener noreferrer">YouTube</a>
+      </div>
+    </div>
+
+    <div class="total-vtubers" id="total-vtubers">
       0 VTubers na Biblioteca
     </div>
-  </section>
+  </div>
 
   <!-- TIKTOK -->
-  <section id="TikTok" class="tab-content">
+  <div id="TikTok" class="tab-content">
     <div class="search-container">
 
       <div class="pais-selector">
         <h3>Escolha seu País</h3>
 
         <div class="pais-buttons">
-          <button class="pais-btn brasil"
-            onclick="carregarPlataforma('TikTok', 'tiktok', 'brasil', 'TikTok', this)">
-            <img src="brasil_flag.jpg" alt="Brasil">
+          <button class="pais-btn brasil" onclick="carregarPlataforma('TikTok', 'tiktok', 'brasil', 'TikTok', this)">
+            <img src="brasil_flag.jpg" alt="Brasil" class="bandera">
             Brasil
           </button>
 
-          <button class="pais-btn portugal"
-            onclick="carregarPlataforma('TikTok', 'tiktok', 'portugal', 'TikTok', this)">
-            <img src="portugal_flag.jpg" alt="Portugal">
+          <button class="pais-btn portugal" onclick="carregarPlataforma('TikTok', 'tiktok', 'portugal', 'TikTok', this)">
+            <img src="portugal_flag.jpg" alt="Portugal" class="bandera">
             Portugal
           </button>
 
-          <button class="pais-btn inglaterra"
-            onclick="carregarPlataforma('TikTok', 'tiktok', 'inglaterra', 'TikTok', this)">
-            <img src="Inglaterra.jpg" alt="Inglaterra">
+          <button class="pais-btn inglaterra" onclick="carregarPlataforma('TikTok', 'tiktok', 'inglaterra', 'TikTok', this)">
+            <img src="Inglaterra.jpg" alt="Inglaterra" class="bandera">
             Inglaterra
           </button>
 
-          <button class="pais-btn australia"
-            onclick="carregarPlataforma('TikTok', 'tiktok', 'australia', 'TikTok', this)">
-            <img src="australia_flag.jpeg" alt="Austrália">
+          <button class="pais-btn australia" onclick="carregarPlataforma('TikTok', 'tiktok', 'australia', 'TikTok', this)">
+            <img src="australia_flag.jpeg" alt="Austrália" class="bandera">
             Austrália
           </button>
 
-          <button class="pais-btn indonesia"
-            onclick="carregarPlataforma('TikTok', 'tiktok', 'indonesia', 'TikTok', this)">
-            <img src="indonesia_flag.jpg" alt="Indonésia">
+          <button class="pais-btn indonesia" onclick="carregarPlataforma('TikTok', 'tiktok', 'indonesia', 'TikTok', this)">
+            <img src="indonesia_flag.jpg" alt="Indonésia" class="bandera">
             Indonésia
           </button>
 
-          <button class="pais-btn franca"
-            onclick="carregarPlataforma('TikTok', 'tiktok', 'franca', 'TikTok', this)">
-            <img src="franca_flag.jpg" alt="França">
+          <button class="pais-btn franca" onclick="carregarPlataforma('TikTok', 'tiktok', 'franca', 'TikTok', this)">
+            <img src="franca_flag.jpg" alt="França" class="bandera">
             França
           </button>
 
-          <button class="pais-btn lituania"
-            onclick="carregarPlataforma('TikTok', 'tiktok', 'lituania', 'TikTok', this)">
-            <img src="lituania_flag.jpeg" alt="Lituânia">
+          <button class="pais-btn lituania" onclick="carregarPlataforma('TikTok', 'tiktok', 'lituania', 'TikTok', this)">
+            <img src="lituania_flag.jpeg" alt="Lituânia" class="bandera">
             Lituânia
           </button>
 
-          <button class="pais-btn usa"
-            onclick="carregarPlataforma('TikTok', 'tiktok', 'usa', 'TikTok', this)">
-            <img src="usa_flag.jpeg" alt="Estados Unidos">
+          <button class="pais-btn usa" onclick="carregarPlataforma('TikTok', 'tiktok', 'usa', 'TikTok', this)">
+            <img src="usa_flag.jpeg" alt="Estados Unidos" class="bandera">
             USA
           </button>
         </div>
       </div>
 
-      <!-- PESQUISA: FICA ACIMA DO ALFABETO -->
+      <!-- PESQUISA ACIMA DO ALFABETO -->
       <div class="search-google">
         <label class="search-google-label" for="pesquisa-google-tiktok">
           🔎 Pesquise um VTuber ou PNGTuber
@@ -121,87 +868,74 @@
             placeholder="Digite o nome do VTuber ou PNGTuber..."
             autocomplete="off"
             oninput="pesquisarGoogleVTuber('tiktok')"
-            onfocus="pesquisarGoogleVTuber('tiktok')"
           >
 
           <span class="search-google-icon">🔍</span>
 
           <div
             id="resultados-google-tiktok"
-            class="search-google-resultados">
-          </div>
-        </div>
-
-        <div class="search-google-aviso">
-          Digite um nome para pesquisar na Biblioteca VTuber.
+            class="search-google-resultados"
+          ></div>
         </div>
       </div>
 
-      <div id="search-letras-tiktok" class="search-letras"></div>
-      <div id="search-result-tiktok" class="search-result"></div>
-      <div id="vtuber-grid-tiktok" class="vtuber-grid"></div>
+      <div class="search-letras" id="search-letras-tiktok"></div>
+      <div class="search-result" id="search-result-tiktok"></div>
+      <div class="vtuber-grid" id="vtuber-grid-tiktok"></div>
     </div>
-  </section>
+  </div>
 
   <!-- YOUTUBE -->
-  <section id="YouTube" class="tab-content">
+  <div id="YouTube" class="tab-content">
     <div class="search-container">
 
       <div class="pais-selector">
         <h3>Escolha seu País</h3>
 
         <div class="pais-buttons">
-          <button class="pais-btn brasil"
-            onclick="carregarPlataforma('YouTube', 'youtube', 'brasil', 'YouTube', this)">
-            <img src="brasil_flag.jpg" alt="Brasil">
+          <button class="pais-btn brasil" onclick="carregarPlataforma('YouTube', 'youtube', 'brasil', 'YouTube', this)">
+            <img src="brasil_flag.jpg" alt="Brasil" class="bandera">
             Brasil
           </button>
 
-          <button class="pais-btn portugal"
-            onclick="carregarPlataforma('YouTube', 'youtube', 'portugal', 'YouTube', this)">
-            <img src="portugal_flag.jpg" alt="Portugal">
+          <button class="pais-btn portugal" onclick="carregarPlataforma('YouTube', 'youtube', 'portugal', 'YouTube', this)">
+            <img src="portugal_flag.jpg" alt="Portugal" class="bandera">
             Portugal
           </button>
 
-          <button class="pais-btn inglaterra"
-            onclick="carregarPlataforma('YouTube', 'youtube', 'inglaterra', 'YouTube', this)">
-            <img src="Inglaterra.jpg" alt="Inglaterra">
+          <button class="pais-btn inglaterra" onclick="carregarPlataforma('YouTube', 'youtube', 'inglaterra', 'YouTube', this)">
+            <img src="Inglaterra.jpg" alt="Inglaterra" class="bandera">
             Inglaterra
           </button>
 
-          <button class="pais-btn australia"
-            onclick="carregarPlataforma('YouTube', 'youtube', 'australia', 'YouTube', this)">
-            <img src="australia_flag.jpeg" alt="Austrália">
+          <button class="pais-btn australia" onclick="carregarPlataforma('YouTube', 'youtube', 'australia', 'YouTube', this)">
+            <img src="australia_flag.jpeg" alt="Austrália" class="bandera">
             Austrália
           </button>
 
-          <button class="pais-btn indonesia"
-            onclick="carregarPlataforma('YouTube', 'youtube', 'indonesia', 'YouTube', this)">
-            <img src="indonesia_flag.jpg" alt="Indonésia">
+          <button class="pais-btn indonesia" onclick="carregarPlataforma('YouTube', 'youtube', 'indonesia', 'YouTube', this)">
+            <img src="indonesia_flag.jpg" alt="Indonésia" class="bandera">
             Indonésia
           </button>
 
-          <button class="pais-btn franca"
-            onclick="carregarPlataforma('YouTube', 'youtube', 'franca', 'YouTube', this)">
-            <img src="franca_flag.jpg" alt="França">
+          <button class="pais-btn franca" onclick="carregarPlataforma('YouTube', 'youtube', 'franca', 'YouTube', this)">
+            <img src="franca_flag.jpg" alt="França" class="bandera">
             França
           </button>
 
-          <button class="pais-btn lituania"
-            onclick="carregarPlataforma('YouTube', 'youtube', 'lituania', 'YouTube', this)">
-            <img src="lituania_flag.jpeg" alt="Lituânia">
+          <button class="pais-btn lituania" onclick="carregarPlataforma('YouTube', 'youtube', 'lituania', 'YouTube', this)">
+            <img src="lituania_flag.jpeg" alt="Lituânia" class="bandera">
             Lituânia
           </button>
 
-          <button class="pais-btn usa"
-            onclick="carregarPlataforma('YouTube', 'youtube', 'usa', 'YouTube', this)">
-            <img src="usa_flag.jpeg" alt="Estados Unidos">
+          <button class="pais-btn usa" onclick="carregarPlataforma('YouTube', 'youtube', 'usa', 'YouTube', this)">
+            <img src="usa_flag.jpeg" alt="Estados Unidos" class="bandera">
             USA
           </button>
         </div>
       </div>
 
-      <!-- PESQUISA: FICA ACIMA DO ALFABETO -->
+      <!-- PESQUISA ACIMA DO ALFABETO -->
       <div class="search-google">
         <label class="search-google-label" for="pesquisa-google-youtube">
           🔎 Pesquise um VTuber ou PNGTuber
@@ -215,87 +949,74 @@
             placeholder="Digite o nome do VTuber ou PNGTuber..."
             autocomplete="off"
             oninput="pesquisarGoogleVTuber('youtube')"
-            onfocus="pesquisarGoogleVTuber('youtube')"
           >
 
           <span class="search-google-icon">🔍</span>
 
           <div
             id="resultados-google-youtube"
-            class="search-google-resultados">
-          </div>
-        </div>
-
-        <div class="search-google-aviso">
-          Digite um nome para pesquisar na Biblioteca VTuber.
+            class="search-google-resultados"
+          ></div>
         </div>
       </div>
 
-      <div id="search-letras-youtube" class="search-letras"></div>
-      <div id="search-result-youtube" class="search-result"></div>
-      <div id="vtuber-grid-youtube" class="vtuber-grid"></div>
+      <div class="search-letras" id="search-letras-youtube"></div>
+      <div class="search-result" id="search-result-youtube"></div>
+      <div class="vtuber-grid" id="vtuber-grid-youtube"></div>
     </div>
-  </section>
+  </div>
 
   <!-- TWITCH -->
-  <section id="Twitch" class="tab-content">
+  <div id="Twitch" class="tab-content">
     <div class="search-container">
 
       <div class="pais-selector">
         <h3>Escolha seu País</h3>
 
         <div class="pais-buttons">
-          <button class="pais-btn brasil"
-            onclick="carregarPlataforma('Twitch', 'twitch', 'brasil', 'Twitch', this)">
-            <img src="brasil_flag.jpg" alt="Brasil">
+          <button class="pais-btn brasil" onclick="carregarPlataforma('Twitch', 'twitch', 'brasil', 'Twitch', this)">
+            <img src="brasil_flag.jpg" alt="Brasil" class="bandera">
             Brasil
           </button>
 
-          <button class="pais-btn portugal"
-            onclick="carregarPlataforma('Twitch', 'twitch', 'portugal', 'Twitch', this)">
-            <img src="portugal_flag.jpg" alt="Portugal">
+          <button class="pais-btn portugal" onclick="carregarPlataforma('Twitch', 'twitch', 'portugal', 'Twitch', this)">
+            <img src="portugal_flag.jpg" alt="Portugal" class="bandera">
             Portugal
           </button>
 
-          <button class="pais-btn inglaterra"
-            onclick="carregarPlataforma('Twitch', 'twitch', 'inglaterra', 'Twitch', this)">
-            <img src="Inglaterra.jpg" alt="Inglaterra">
+          <button class="pais-btn inglaterra" onclick="carregarPlataforma('Twitch', 'twitch', 'inglaterra', 'Twitch', this)">
+            <img src="Inglaterra.jpg" alt="Inglaterra" class="bandera">
             Inglaterra
           </button>
 
-          <button class="pais-btn australia"
-            onclick="carregarPlataforma('Twitch', 'twitch', 'australia', 'Twitch', this)">
-            <img src="australia_flag.jpeg" alt="Austrália">
+          <button class="pais-btn australia" onclick="carregarPlataforma('Twitch', 'twitch', 'australia', 'Twitch', this)">
+            <img src="australia_flag.jpeg" alt="Austrália" class="bandera">
             Austrália
           </button>
 
-          <button class="pais-btn indonesia"
-            onclick="carregarPlataforma('Twitch', 'twitch', 'indonesia', 'Twitch', this)">
-            <img src="indonesia_flag.jpg" alt="Indonésia">
+          <button class="pais-btn indonesia" onclick="carregarPlataforma('Twitch', 'twitch', 'indonesia', 'Twitch', this)">
+            <img src="indonesia_flag.jpg" alt="Indonésia" class="bandera">
             Indonésia
           </button>
 
-          <button class="pais-btn franca"
-            onclick="carregarPlataforma('Twitch', 'twitch', 'franca', 'Twitch', this)">
-            <img src="franca_flag.jpg" alt="França">
+          <button class="pais-btn franca" onclick="carregarPlataforma('Twitch', 'twitch', 'franca', 'Twitch', this)">
+            <img src="franca_flag.jpg" alt="França" class="bandera">
             França
           </button>
 
-          <button class="pais-btn lituania"
-            onclick="carregarPlataforma('Twitch', 'twitch', 'lituania', 'Twitch', this)">
-            <img src="lituania_flag.jpeg" alt="Lituânia">
+          <button class="pais-btn lituania" onclick="carregarPlataforma('Twitch', 'twitch', 'lituania', 'Twitch', this)">
+            <img src="lituania_flag.jpeg" alt="Lituânia" class="bandera">
             Lituânia
           </button>
 
-          <button class="pais-btn usa"
-            onclick="carregarPlataforma('Twitch', 'twitch', 'usa', 'Twitch', this)">
-            <img src="usa_flag.jpeg" alt="Estados Unidos">
+          <button class="pais-btn usa" onclick="carregarPlataforma('Twitch', 'twitch', 'usa', 'Twitch', this)">
+            <img src="usa_flag.jpeg" alt="Estados Unidos" class="bandera">
             USA
           </button>
         </div>
       </div>
 
-      <!-- PESQUISA: FICA ACIMA DO ALFABETO -->
+      <!-- PESQUISA ACIMA DO ALFABETO -->
       <div class="search-google">
         <label class="search-google-label" for="pesquisa-google-twitch">
           🔎 Pesquise um VTuber ou PNGTuber
@@ -309,87 +1030,74 @@
             placeholder="Digite o nome do VTuber ou PNGTuber..."
             autocomplete="off"
             oninput="pesquisarGoogleVTuber('twitch')"
-            onfocus="pesquisarGoogleVTuber('twitch')"
           >
 
           <span class="search-google-icon">🔍</span>
 
           <div
             id="resultados-google-twitch"
-            class="search-google-resultados">
-          </div>
-        </div>
-
-        <div class="search-google-aviso">
-          Digite um nome para pesquisar na Biblioteca VTuber.
+            class="search-google-resultados"
+          ></div>
         </div>
       </div>
 
-      <div id="search-letras-twitch" class="search-letras"></div>
-      <div id="search-result-twitch" class="search-result"></div>
-      <div id="vtuber-grid-twitch" class="vtuber-grid"></div>
+      <div class="search-letras" id="search-letras-twitch"></div>
+      <div class="search-result" id="search-result-twitch"></div>
+      <div class="vtuber-grid" id="vtuber-grid-twitch"></div>
     </div>
-  </section>
+  </div>
 
   <!-- KICK -->
-  <section id="kick" class="tab-content">
+  <div id="kick" class="tab-content">
     <div class="search-container">
 
       <div class="pais-selector">
         <h3>Escolha seu País</h3>
 
         <div class="pais-buttons">
-          <button class="pais-btn brasil"
-            onclick="carregarPlataforma('kick', 'kick', 'brasil', 'Kick', this)">
-            <img src="brasil_flag.jpg" alt="Brasil">
+          <button class="pais-btn brasil" onclick="carregarPlataforma('kick', 'kick', 'brasil', 'Kick', this)">
+            <img src="brasil_flag.jpg" alt="Brasil" class="bandera">
             Brasil
           </button>
 
-          <button class="pais-btn portugal"
-            onclick="carregarPlataforma('kick', 'kick', 'portugal', 'Kick', this)">
-            <img src="portugal_flag.jpg" alt="Portugal">
+          <button class="pais-btn portugal" onclick="carregarPlataforma('kick', 'kick', 'portugal', 'Kick', this)">
+            <img src="portugal_flag.jpg" alt="Portugal" class="bandera">
             Portugal
           </button>
 
-          <button class="pais-btn inglaterra"
-            onclick="carregarPlataforma('kick', 'kick', 'inglaterra', 'Kick', this)">
-            <img src="Inglaterra.jpg" alt="Inglaterra">
+          <button class="pais-btn inglaterra" onclick="carregarPlataforma('kick', 'kick', 'inglaterra', 'Kick', this)">
+            <img src="Inglaterra.jpg" alt="Inglaterra" class="bandera">
             Inglaterra
           </button>
 
-          <button class="pais-btn australia"
-            onclick="carregarPlataforma('kick', 'kick', 'australia', 'Kick', this)">
-            <img src="australia_flag.jpeg" alt="Austrália">
+          <button class="pais-btn australia" onclick="carregarPlataforma('kick', 'kick', 'australia', 'Kick', this)">
+            <img src="australia_flag.jpeg" alt="Austrália" class="bandera">
             Austrália
           </button>
 
-          <button class="pais-btn indonesia"
-            onclick="carregarPlataforma('kick', 'kick', 'indonesia', 'Kick', this)">
-            <img src="indonesia_flag.jpg" alt="Indonésia">
+          <button class="pais-btn indonesia" onclick="carregarPlataforma('kick', 'kick', 'indonesia', 'Kick', this)">
+            <img src="indonesia_flag.jpg" alt="Indonésia" class="bandera">
             Indonésia
           </button>
 
-          <button class="pais-btn franca"
-            onclick="carregarPlataforma('kick', 'kick', 'franca', 'Kick', this)">
-            <img src="franca_flag.jpg" alt="França">
+          <button class="pais-btn franca" onclick="carregarPlataforma('kick', 'kick', 'franca', 'Kick', this)">
+            <img src="franca_flag.jpg" alt="França" class="bandera">
             França
           </button>
 
-          <button class="pais-btn lituania"
-            onclick="carregarPlataforma('kick', 'kick', 'lituania', 'Kick', this)">
-            <img src="lituania_flag.jpeg" alt="Lituânia">
+          <button class="pais-btn lituania" onclick="carregarPlataforma('kick', 'kick', 'lituania', 'Kick', this)">
+            <img src="lituania_flag.jpeg" alt="Lituânia" class="bandera">
             Lituânia
           </button>
 
-          <button class="pais-btn usa"
-            onclick="carregarPlataforma('kick', 'kick', 'usa', 'Kick', this)">
-            <img src="usa_flag.jpeg" alt="Estados Unidos">
+          <button class="pais-btn usa" onclick="carregarPlataforma('kick', 'kick', 'usa', 'Kick', this)">
+            <img src="usa_flag.jpeg" alt="Estados Unidos" class="bandera">
             USA
           </button>
         </div>
       </div>
 
-      <!-- PESQUISA: FICA ACIMA DO ALFABETO -->
+      <!-- PESQUISA ACIMA DO ALFABETO -->
       <div class="search-google">
         <label class="search-google-label" for="pesquisa-google-kick">
           🔎 Pesquise um VTuber ou PNGTuber
@@ -403,29 +1111,592 @@
             placeholder="Digite o nome do VTuber ou PNGTuber..."
             autocomplete="off"
             oninput="pesquisarGoogleVTuber('kick')"
-            onfocus="pesquisarGoogleVTuber('kick')"
           >
 
           <span class="search-google-icon">🔍</span>
 
           <div
             id="resultados-google-kick"
-            class="search-google-resultados">
-          </div>
-        </div>
-
-        <div class="search-google-aviso">
-          Digite um nome para pesquisar na Biblioteca VTuber.
+            class="search-google-resultados"
+          ></div>
         </div>
       </div>
 
-      <div id="search-letras-kick" class="search-letras"></div>
-      <div id="search-result-kick" class="search-result"></div>
-      <div id="vtuber-grid-kick" class="vtuber-grid"></div>
+      <div class="search-letras" id="search-letras-kick"></div>
+      <div class="search-result" id="search-result-kick"></div>
+      <div class="vtuber-grid" id="vtuber-grid-kick"></div>
     </div>
-  </section>
+  </div>
 
-  <!-- Arquivo JavaScript: fica no final do body -->
-  <script src="script.js"></script>
+  <!-- DOAÇÕES -->
+  <div id="doar" class="tab-content">
+    <div class="main-card doar-card" style="max-width: 400px; text-align: center;">
+      <div class="badge">💖 Apoie Nosso Trabalho</div>
+      <h2>Faça Sua Doação</h2>
+
+      <img
+        src="qrcode.jpeg"
+        alt="QR Code PIX"
+        style="width: 90%; max-width: 280px; margin: 20px auto 18px; display: block; border-radius: 12px; box-shadow: 0 0 15px #ff2399; background: #fff;"
+      >
+
+      <p style="font-weight: 700; font-size: 1.2em; color: #ff2399; word-break: break-all;">
+        PIX: 08350550945
+      </p>
+    </div>
+  </div>
+
+  <!-- PARCERIAS -->
+  <div id="parceria" class="tab-content">
+
+    <div class="parceria-card">
+      <a href="https://www.tiktok.com/@pngtuber_ofcial" target="_blank" rel="noopener noreferrer">
+        <img src="pngtuberofficial_avatar.jpeg" alt="PNGTuber Oficial" class="parceria-avatar">
+      </a>
+
+      <div class="parceria-nome">
+        Parceiro Oficial PNGTuber Oficial
+      </div>
+
+      <div class="social-links">
+        <a href="https://www.tiktok.com/@pngtuber_ofcial" target="_blank" rel="noopener noreferrer">
+          TikTok
+        </a>
+      </div>
+    </div>
+
+    <div class="parceria-card">
+      <a href="https://sites.google.com/view/spacelegacy-studio-wiki/in%C3%ADcio" target="_blank" rel="noopener noreferrer">
+        <img src="spacelegacy_studio_wiki_avatar.jpeg" alt="Spacelegacy Studio Wiki" class="parceria-avatar">
+      </a>
+
+      <div class="parceria-nome">
+        Parceiro Oficial Spacelegacy Studio Wiki
+      </div>
+
+      <div class="social-links">
+        <a href="https://sites.google.com/view/spacelegacy-studio-wiki/in%C3%ADcio" target="_blank" rel="noopener noreferrer">
+          Site
+        </a>
+      </div>
+    </div>
+
+    <div class="parceria-card">
+      <a href="https://youtube.com/@solarius_tms" target="_blank" rel="noopener noreferrer">
+        <img src="solarius_the_multiversal_studio_avatar.jpeg" alt="Solarius The Multiversal Studio" class="parceria-avatar">
+      </a>
+
+      <div class="parceria-nome">
+        Parceiro Oficial Solarius The Multiversal Studio
+      </div>
+
+      <div class="social-links">
+        <a href="https://youtube.com/@solarius_tms" target="_blank" rel="noopener noreferrer">
+          YouTube
+        </a>
+      </div>
+    </div>
+
+    <div class="parceria-aviso">
+      <div class="preco">R$ 30,00</div>
+      <div class="texto">para virar parceiro da Biblioteca VTuber</div>
+    </div>
+  </div>
+
+  <script>
+    /*
+      IMPORTANTE:
+      Cole aqui dentro a sua lista grande atual de VTubers.
+      Ela deve começar com const vTubers = [ e terminar com ];
+      Não use },... em nenhum lugar: use apenas },
+    */
+
+    const vTubers = [
+      {
+        id: 2,
+        name: 'mih_estelar',
+        pais: 'brasil',
+        founder: true,
+        description: 'Fundadora e VTuber principal',
+        tiktok: 'https://www.tiktok.com/@mih_estelar',
+        youtube: 'https://www.youtube.com/@mih_estelar',
+        twitch: 'https://www.twitch.tv/mih_estelar',
+        kick: '',
+        avatar: 'oriel.jpeg'
+      },
+
+      {
+        id: 3,
+        name: 'Kiyomi Suzuri',
+        pais: 'brasil',
+        founder: false,
+        description: 'VTuber PNG',
+        tiktok: 'https://www.tiktok.com/@kiyomisazuri123iu9',
+        youtube: 'https://youtube.com/@kiyomisuzuri',
+        twitch: '',
+        kick: '',
+        avatar: 'Kiyomi Suzuri.jpeg'
+      },
+
+      {
+        id: 4,
+        name: 'Fumi',
+        pais: 'brasil',
+        founder: false,
+        description: 'VTuber',
+        tiktok: '',
+        youtube: 'https://www.youtube.com/channel/UClJDPLqgC_hcWexhemRtGFQ',
+        twitch: 'https://www.twitch.tv/fumi_vtuber',
+        kick: '',
+        avatar: 'fumi.jpeg'
+      }
+
+      /*
+        COLE TODOS OS OUTROS VTUBERS DA SUA LISTA AQUI.
+        Antes do próximo objeto, coloque vírgula depois do objeto anterior.
+      */
+    ];
+
+    function normalizarTexto(texto) {
+      return String(texto || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .trim();
+    }
+
+    function nomePlataforma(platform) {
+      const nomes = {
+        tiktok: 'TikTok',
+        youtube: 'YouTube',
+        twitch: 'Twitch',
+        kick: 'Kick'
+      };
+
+      return nomes[platform] || platform;
+    }
+
+    function openTab(event, tabName) {
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+
+      document.querySelectorAll('.tab-btn').forEach(botao => {
+        botao.classList.remove('active');
+      });
+
+      const aba = document.getElementById(tabName);
+
+      if (aba) {
+        aba.classList.add('active');
+      }
+
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+      }
+    }
+
+    function abrirAbaPorId(tabName) {
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+
+      document.querySelectorAll('.tab-btn').forEach(botao => {
+        botao.classList.remove('active');
+
+        const onclick = botao.getAttribute('onclick') || '';
+
+        if (onclick.includes(`'${tabName}'`)) {
+          botao.classList.add('active');
+        }
+      });
+
+      const aba = document.getElementById(tabName);
+
+      if (aba) {
+        aba.classList.add('active');
+      }
+    }
+
+    function carregarPlataforma(
+      tabName,
+      platform,
+      pais,
+      platformName,
+      botaoClicado
+    ) {
+      const grid = document.getElementById(`vtuber-grid-${platform}`);
+      const searchLetras = document.getElementById(
+        `search-letras-${platform}`
+      );
+      const searchResult = document.getElementById(
+        `search-result-${platform}`
+      );
+
+      if (!grid || !searchLetras || !searchResult) {
+        return;
+      }
+
+      document.querySelectorAll(`#${tabName} .pais-btn`).forEach(botao => {
+        botao.classList.remove('active');
+      });
+
+      if (botaoClicado) {
+        botaoClicado.classList.add('active');
+      }
+
+      grid.innerHTML = '';
+
+      grid.classList.add('mostrar');
+      searchLetras.classList.add('mostrar');
+      searchResult.classList.add('mostrar');
+
+      const filtrados = vTubers.filter(vtuber => {
+        return vtuber.pais === pais && vtuber[platform];
+      });
+
+      if (filtrados.length === 0) {
+        grid.innerHTML = `
+          <div class="aviso-vazio">
+            Ainda não existem VTubers ou PNGTubers cadastrados neste país
+            para a plataforma ${platformName}.
+          </div>
+        `;
+      } else {
+        filtrados.forEach(vtuber => {
+          const card = document.createElement('article');
+
+          card.className = 'vtuber-card';
+          card.id = `vtuber-${platform}-${vtuber.id}`;
+
+          card.innerHTML = `
+            <img
+              class="vtuber-avatar"
+              src="${vtuber.avatar}"
+              alt="Avatar de ${vtuber.name}"
+              loading="lazy"
+            >
+
+            <div class="vtuber-name">
+              ${vtuber.name}${vtuber.founder ? ' ⭐ Fundadora' : ''}
+            </div>
+
+            <div class="vtuber-description">
+              ${vtuber.description || ''}
+            </div>
+
+            <div class="social-links">
+              <a
+                href="${vtuber[platform]}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ${platformName}
+              </a>
+            </div>
+          `;
+
+          grid.appendChild(card);
+        });
+      }
+
+      searchResult.textContent =
+        `${filtrados.length} VTubers encontrados`;
+
+      criarBotoesLetras(
+        `search-letras-${platform}`,
+        `vtuber-grid-${platform}`
+      );
+    }
+
+    function criarBotoesLetras(containerId, gridId) {
+      const container = document.getElementById(containerId);
+
+      if (!container) {
+        return;
+      }
+
+      container.innerHTML = '';
+
+      const todas = document.createElement('button');
+
+      todas.type = 'button';
+      todas.className = 'letra-btn todas active';
+      todas.textContent = 'TODAS';
+
+      todas.addEventListener('click', event => {
+        filtrarPorLetra(gridId, '', event);
+      });
+
+      container.appendChild(todas);
+
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(letra => {
+        const botao = document.createElement('button');
+
+        botao.type = 'button';
+        botao.className = 'letra-btn';
+        botao.textContent = letra;
+
+        botao.addEventListener('click', event => {
+          filtrarPorLetra(gridId, letra, event);
+        });
+
+        container.appendChild(botao);
+      });
+    }
+
+    function filtrarPorLetra(gridId, letra, event) {
+      const grid = document.getElementById(gridId);
+
+      if (!grid) {
+        return;
+      }
+
+      const cards = grid.querySelectorAll('.vtuber-card');
+      const botoes = grid.parentElement.querySelectorAll('.letra-btn');
+
+      botoes.forEach(botao => {
+        botao.classList.remove('active');
+      });
+
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+      }
+
+      let quantidade = 0;
+
+      cards.forEach(card => {
+        const nome = normalizarTexto(
+          card.querySelector('.vtuber-name').textContent
+        );
+
+        if (letra === '' || nome.charAt(0).toUpperCase() === letra) {
+          card.style.display = 'flex';
+          quantidade++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      const platform = gridId.replace('vtuber-grid-', '');
+      const resultado = document.getElementById(
+        `search-result-${platform}`
+      );
+
+      if (resultado) {
+        resultado.textContent =
+          letra === ''
+            ? `Mostrando todos (${quantidade})`
+            : `Letra "${letra}": ${quantidade}`;
+      }
+    }
+
+    function pesquisarGoogleVTuber(platform) {
+      const input = document.getElementById(`pesquisa-google-${platform}`);
+      const resultados = document.getElementById(
+        `resultados-google-${platform}`
+      );
+
+      if (!input || !resultados) {
+        return;
+      }
+
+      const termo = normalizarTexto(input.value);
+
+      resultados.innerHTML = '';
+
+      if (!termo) {
+        resultados.classList.remove('mostrar');
+        return;
+      }
+
+      const encontradosNaBiblioteca = vTubers.filter(vtuber => {
+        return normalizarTexto(vtuber.name).includes(termo);
+      });
+
+      if (encontradosNaBiblioteca.length === 0) {
+        resultados.innerHTML = `
+          <div class="search-google-nenhum">
+            <strong>
+              Não encontramos esse VTuber ou PNGTuber na Biblioteca.
+            </strong>
+
+            <br><br>
+
+            Seu VTuber/PNGTuber talvez não tenha aceitado participar da
+            Biblioteca VTuber ou ainda não saiba sobre o projeto.
+          </div>
+        `;
+
+        resultados.classList.add('mostrar');
+        return;
+      }
+
+      const encontradosNaPlataforma = encontradosNaBiblioteca.filter(vtuber => {
+        return Boolean(vtuber[platform]);
+      });
+
+      if (encontradosNaPlataforma.length === 0) {
+        resultados.innerHTML = `
+          <div class="search-google-nenhum">
+            <strong>
+              Esse VTuber ou PNGTuber foi encontrado na Biblioteca.
+            </strong>
+
+            <br><br>
+
+            Porém, ainda não possui link cadastrado para
+            ${nomePlataforma(platform)}.
+          </div>
+        `;
+
+        resultados.classList.add('mostrar');
+        return;
+      }
+
+      encontradosNaPlataforma.forEach(vtuber => {
+        const opcao = document.createElement('button');
+
+        opcao.type = 'button';
+        opcao.className = 'search-google-opcao';
+
+        opcao.innerHTML = `
+          <img src="${vtuber.avatar}" alt="">
+
+          <span>
+            <span class="search-google-opcao-nome">
+              ${vtuber.name}
+            </span>
+
+            <span class="search-google-opcao-info">
+              ${vtuber.description || 'VTuber/PNGTuber da Biblioteca'}
+              • ${nomePlataforma(platform)}
+            </span>
+          </span>
+        `;
+
+        opcao.addEventListener('click', () => {
+          abrirCardPesquisado(vtuber, platform);
+        });
+
+        resultados.appendChild(opcao);
+      });
+
+      resultados.classList.add('mostrar');
+    }
+
+    function abrirCardPesquisado(vtuber, platform) {
+      const configuracoes = {
+        tiktok: {
+          aba: 'TikTok',
+          nome: 'TikTok'
+        },
+
+        youtube: {
+          aba: 'YouTube',
+          nome: 'YouTube'
+        },
+
+        twitch: {
+          aba: 'Twitch',
+          nome: 'Twitch'
+        },
+
+        kick: {
+          aba: 'kick',
+          nome: 'Kick'
+        }
+      };
+
+      const configuracao = configuracoes[platform];
+
+      if (!configuracao) {
+        return;
+      }
+
+      abrirAbaPorId(configuracao.aba);
+
+      const aba = document.getElementById(configuracao.aba);
+
+      if (!aba) {
+        return;
+      }
+
+      const botaoPais = aba.querySelector(
+        `.pais-btn.${vtuber.pais}`
+      );
+
+      carregarPlataforma(
+        configuracao.aba,
+        platform,
+        vtuber.pais,
+        configuracao.nome,
+        botaoPais
+      );
+
+      const input = document.getElementById(
+        `pesquisa-google-${platform}`
+      );
+
+      const resultados = document.getElementById(
+        `resultados-google-${platform}`
+      );
+
+      if (input) {
+        input.value = vtuber.name;
+      }
+
+      if (resultados) {
+        resultados.innerHTML = '';
+        resultados.classList.remove('mostrar');
+      }
+
+      setTimeout(() => {
+        const card = document.getElementById(
+          `vtuber-${platform}-${vtuber.id}`
+        );
+
+        if (!card) {
+          return;
+        }
+
+        card.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+
+        card.classList.remove('card-destacado');
+
+        setTimeout(() => {
+          card.classList.add('card-destacado');
+        }, 300);
+      }, 180);
+    }
+
+    document.addEventListener('click', event => {
+      if (!event.target.closest('.search-google')) {
+        document.querySelectorAll('.search-google-resultados').forEach(lista => {
+          lista.classList.remove('mostrar');
+        });
+      }
+    });
+
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const loading = document.getElementById('loading-screen');
+
+        if (loading) {
+          loading.style.display = 'none';
+        }
+
+        const total = document.getElementById('total-vtubers');
+
+        if (total) {
+          total.textContent =
+            `${vTubers.length} VTubers na Biblioteca`;
+        }
+      }, 2400);
+    });
+  </script>
 </body>
 </html>
