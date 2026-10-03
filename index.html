@@ -20,15 +20,16 @@
     /* Loading */
     #loading-screen {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: #ff2399;
+      z-index: 9999;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      z-index: 9999;
+      background: #ff2399;
       color: #fff;
     }
 
@@ -43,7 +44,7 @@
       width: 80px;
       height: 80px;
       margin-bottom: 14px;
-      border: 8px solid rgba(255, 255, 255, .15);
+      border: 8px solid rgba(255,255,255,.15);
       border-top: 8px solid #fff;
       border-radius: 50%;
       animation: spin 1.2s linear infinite;
@@ -68,7 +69,7 @@
       text-shadow: 0 2px 5px #bc1b70;
     }
 
-    /* Navegação */
+    /* Menu */
     .topnav {
       position: relative;
       z-index: 50;
@@ -83,7 +84,7 @@
 
     .tab-btn {
       flex: 1 1 0;
-      min-width: 90px;
+      min-width: 94px;
       padding: 18px 10px;
       border: none;
       border-bottom: 5px solid transparent;
@@ -91,12 +92,16 @@
       background: none;
       color: #2c2033;
       font-family: inherit;
-      font-size: 1.05em;
+      font-size: 1em;
       font-weight: 900;
       letter-spacing: 1px;
       white-space: nowrap;
       cursor: pointer;
-      transition: background .25s ease, color .2s ease;
+      transition: .2s ease;
+    }
+
+    .tab-btn:hover {
+      background: #fff0f8;
     }
 
     .tab-btn.active {
@@ -105,6 +110,7 @@
       color: #ff2399;
     }
 
+    /* Abas */
     .tab-content {
       display: none;
       padding: 20px 0;
@@ -114,7 +120,7 @@
       display: block;
     }
 
-    /* Cards principais */
+    /* Início */
     .main-card {
       position: relative;
       display: flex;
@@ -148,7 +154,6 @@
       color: #fff;
       font-size: 2em;
       font-weight: 900;
-      letter-spacing: 1px;
       text-align: center;
       box-shadow: 2px 4px 0 #7955ce;
     }
@@ -171,7 +176,7 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 6px;
+      gap: 7px;
     }
 
     .main-card .link-btn,
@@ -204,9 +209,8 @@
       transform: translateX(-50%);
       background: #fff;
       color: #ff2399;
-      font-size: 1.05em;
+      font-size: 1.02em;
       font-weight: 900;
-      letter-spacing: 1px;
       white-space: nowrap;
       box-shadow: 2px 4px 0 #7955ce;
     }
@@ -218,9 +222,9 @@
       border-radius: 20px;
       background: linear-gradient(45deg, #ff2399, #7955ce);
       color: #fff;
-      font-size: 1.4em;
+      font-size: 1.3em;
       font-weight: 900;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
       text-align: center;
       box-shadow: 0 8px 0 #2c2033;
     }
@@ -241,7 +245,6 @@
       padding: 20px;
       border-radius: 25px;
       background: linear-gradient(45deg, #ff2399, #7955ce);
-      text-align: center;
       box-shadow: 0 8px 0 #2c2033;
     }
 
@@ -274,7 +277,7 @@
       font-weight: 900;
       cursor: pointer;
       box-shadow: 3px 6px 0 #ff2399;
-      transition: all .3s ease;
+      transition: .3s ease;
     }
 
     .pais-btn.brasil {
@@ -305,7 +308,6 @@
       height: 24px;
       border-radius: 4px;
       object-fit: cover;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
     }
 
     .pais-btn:hover,
@@ -316,7 +318,7 @@
       box-shadow: 5px 9px 0 #7955ce;
     }
 
-    /* PESQUISA ESTILO GOOGLE */
+    /* Pesquisa */
     .search-google {
       position: relative;
       width: min(620px, 100%);
@@ -449,7 +451,7 @@
       color: #ff2399;
     }
 
-    /* Letras */
+    /* Alfabeto */
     .search-letras {
       display: none;
       flex-wrap: wrap;
@@ -489,7 +491,6 @@
 
     .letra-btn.todas {
       background: #2c2033;
-      box-shadow: 2px 4px 0 #ff2399;
     }
 
     .search-result {
@@ -506,7 +507,6 @@
       display: block !important;
     }
 
-    /* Cards */
     .vtuber-grid {
       display: none;
       flex-wrap: wrap;
@@ -573,7 +573,6 @@
     .vtuber-description {
       margin-bottom: 12px;
       color: #2c2033;
-      font-weight: 500;
       line-height: 1.4;
     }
 
@@ -585,16 +584,13 @@
       0%,
       100% {
         transform: translateY(0);
-        border-color: #7955ce;
       }
 
       25%,
       55% {
         transform: translateY(-9px) scale(1.03);
         border-color: #ff2399;
-        box-shadow:
-          0 0 0 7px rgba(255, 35, 153, .22),
-          0 16px 32px rgba(255, 35, 153, .35);
+        box-shadow: 0 0 0 7px rgba(255, 35, 153, .22);
       }
     }
 
@@ -603,12 +599,11 @@
     }
 
     .parceria-aviso {
-      position: relative;
       max-width: 420px;
       margin: 25px auto 35px;
       padding: 25px;
       border-radius: 20px;
-      background: linear-gradient(135deg, #ff2399 0%, #7955ce 100%);
+      background: linear-gradient(135deg, #ff2399, #7955ce);
       color: #fff;
       text-align: center;
       box-shadow: 0 12px 0 #2c2033;
@@ -620,29 +615,181 @@
       font-weight: 900;
     }
 
-    .parceria-aviso .texto {
-      margin: 0;
-      font-size: 1.2em;
-      font-weight: 700;
+    /* Notícias */
+    .noticias-container {
+      width: min(850px, 92%);
+      margin: 0 auto 35px;
+      padding: 25px 20px 35px;
     }
 
-    .aviso-vazio {
-      width: min(560px, 95%);
-      margin: 20px auto;
-      padding: 16px;
-      border: 3px solid #ff2399;
-      border-radius: 15px;
-      background: #fff0f8;
-      color: #2c2033;
-      font-weight: 800;
+    .noticias-titulo {
+      margin: 0 auto 30px;
+      padding: 16px 22px;
+      border-radius: 20px;
+      background: linear-gradient(45deg, #ff2399, #7955ce);
+      color: #fff;
+      font-size: 1.55em;
+      font-weight: 900;
       text-align: center;
+      box-shadow: 0 8px 0 #2c2033;
+    }
+
+    .meta-youtube-card,
+    .inscritos-card,
+    .novidades-card {
+      margin: 25px auto;
+      padding: 28px 22px;
+      border-radius: 22px;
+      background: #fff;
+      color: #2c2033;
+      text-align: center;
+      box-shadow: 0 7px 0 #2c2033;
+    }
+
+    .meta-youtube-card {
+      border: 5px solid #ff2399;
+      background:
+        linear-gradient(135deg, rgba(255, 35, 153, .12), rgba(121, 85, 206, .16)),
+        #fff;
+    }
+
+    .meta-icone {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 70px;
+      height: 70px;
+      margin: -52px auto 15px;
+      border: 4px solid #fff;
+      border-radius: 50%;
+      background: #ff2399;
+      font-size: 2em;
+      box-shadow: 0 5px 0 #7955ce;
+    }
+
+    .meta-youtube-card h2 {
+      color: #ff2399;
+      font-size: 1.55em;
+    }
+
+    .meta-numero {
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 16px;
+      background: linear-gradient(45deg, #ff2399, #7955ce);
+      color: #fff;
+      font-size: 2em;
+      font-weight: 900;
+      box-shadow: 3px 5px 0 #2c2033;
+    }
+
+    .meta-legenda,
+    .inscritos-canal {
+      margin-top: 12px;
+      color: #7955ce;
+      font-weight: 900;
+    }
+
+    .inscritos-card {
+      border: 4px solid #7955ce;
+    }
+
+    .inscritos-titulo {
+      font-size: 1.2em;
+      font-weight: 900;
+    }
+
+    .inscritos-numero {
+      margin: 8px 0;
+      color: #ff2399;
+      font-size: 3.5em;
+      font-weight: 900;
+    }
+
+    .progresso-fundo {
+      width: min(520px, 100%);
+      height: 24px;
+      margin: 20px auto 0;
+      overflow: hidden;
+      border: 3px solid #2c2033;
+      border-radius: 20px;
+      background: #f7f1e7;
+    }
+
+    .progresso-barra {
+      min-width: 6px;
+      height: 100%;
+      border-radius: 20px;
+      background: linear-gradient(90deg, #ff2399, #7955ce);
+    }
+
+    .progresso-texto {
+      font-weight: 900;
+    }
+
+    .noticias-youtube-btn {
+      display: inline-block;
+      padding: 12px 22px;
+      border-radius: 25px;
+      background: #ff2399;
+      color: #fff;
+      font-weight: 900;
+      text-decoration: none;
+      box-shadow: 3px 5px 0 #7955ce;
+    }
+
+    .novidades-card {
+      border: 4px solid #ff2399;
+      text-align: left;
+    }
+
+    .novidades-card h2 {
+      color: #ff2399;
+      text-align: center;
+    }
+
+    .noticia-item {
+      margin: 18px 0;
+      padding: 18px;
+      border: 3px solid #7955ce;
+      border-radius: 16px;
+      background: #fdfaff;
+    }
+
+    .noticia-item.destaque {
+      border-color: #ff2399;
+      background: #fff0f8;
+    }
+
+    .noticia-data {
+      display: inline-block;
+      margin-bottom: 8px;
+      padding: 5px 10px;
+      border-radius: 10px;
+      background: #7955ce;
+      color: #fff;
+      font-size: .82em;
+      font-weight: 900;
+    }
+
+    .noticia-item.destaque .noticia-data {
+      background: #ff2399;
+    }
+
+    .noticia-item h3 {
+      margin: 0 0 9px;
+    }
+
+    .noticia-item p {
+      margin: 0;
+      line-height: 1.55;
     }
 
     @media (max-width: 768px) {
       .tab-btn {
-        min-width: 84px;
+        min-width: 82px;
         padding: 14px 8px;
-        font-size: .9em;
+        font-size: .88em;
       }
 
       .pais-buttons {
@@ -665,6 +812,10 @@
         height: 130px;
       }
 
+      .main-card .nome-vtuber {
+        font-size: 1.5em;
+      }
+
       .search-google {
         width: 92%;
       }
@@ -677,6 +828,19 @@
       .vtuber-card,
       .parceria-card {
         width: 200px;
+      }
+
+      .noticias-container {
+        width: 94%;
+        padding: 20px 10px 30px;
+      }
+
+      .meta-numero {
+        font-size: 1.55em;
+      }
+
+      .inscritos-numero {
+        font-size: 3em;
       }
     }
   </style>
@@ -700,6 +864,7 @@
     <button class="tab-btn" onclick="openTab(event, 'kick')">Kick</button>
     <button class="tab-btn" onclick="openTab(event, 'doar')">Doações</button>
     <button class="tab-btn" onclick="openTab(event, 'parceria')">Parcerias</button>
+    <button class="tab-btn" onclick="openTab(event, 'noticias')">Notícias</button>
   </nav>
 
   <!-- INÍCIO -->
@@ -1132,6 +1297,7 @@
   <div id="doar" class="tab-content">
     <div class="main-card doar-card" style="max-width: 400px; text-align: center;">
       <div class="badge">💖 Apoie Nosso Trabalho</div>
+
       <h2>Faça Sua Doação</h2>
 
       <img
@@ -1199,18 +1365,111 @@
 
     <div class="parceria-aviso">
       <div class="preco">R$ 30,00</div>
-      <div class="texto">para virar parceiro da Biblioteca VTuber</div>
+      <div class="texto">
+        para virar parceiro da Biblioteca VTuber
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTÍCIAS -->
+  <div id="noticias" class="tab-content">
+    <div class="noticias-container">
+
+      <div class="noticias-titulo">
+        📰 Notícias da Biblioteca VTuber
+      </div>
+
+      <section class="meta-youtube-card">
+        <div class="meta-icone">▶️</div>
+
+        <h2>Meta do Canal @Mih_Estelar</h2>
+
+        <p>
+          Nossa primeira grande meta é conquistar a primeira placa do YouTube!
+        </p>
+
+        <div class="meta-numero">
+          100.000 inscritos
+        </div>
+
+        <div class="meta-legenda">
+          Meta para a Placa de Prata do YouTube
+        </div>
+      </section>
+
+      <section class="inscritos-card">
+        <div class="inscritos-titulo">
+          Inscritos atuais no canal
+        </div>
+
+        <div class="inscritos-numero">
+          429
+        </div>
+
+        <div class="inscritos-canal">
+          Canal: @Mih_Estelar
+        </div>
+
+        <div class="progresso-fundo">
+          <div
+            class="progresso-barra"
+            style="width: 0.429%;"
+          ></div>
+        </div>
+
+        <p class="progresso-texto">
+          429 de 100.000 inscritos
+        </p>
+
+        <a
+          class="noticias-youtube-btn"
+          href="https://www.youtube.com/@mih_estelar"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ▶️ Visitar Canal no YouTube
+        </a>
+      </section>
+
+      <section class="novidades-card">
+        <h2>✨ Novidades e Notícias</h2>
+
+        <article class="noticia-item destaque">
+          <div class="noticia-data">
+            Atualização da Biblioteca VTuber
+          </div>
+
+          <h3>Bem-vindo à área de notícias!</h3>
+
+          <p>
+            Aqui serão publicados avisos, atualizações da Biblioteca VTuber,
+            novos parceiros, novos VTubers cadastrados, metas do canal e
+            outras novidades importantes do projeto.
+          </p>
+        </article>
+
+        <article class="noticia-item">
+          <div class="noticia-data">
+            Meta atual do canal
+          </div>
+
+          <h3>Rumo à primeira placa do YouTube</h3>
+
+          <p>
+            O canal @Mih_Estelar está com 429 inscritos.
+            A meta é chegar a 100.000 inscritos. Cada inscrição ajuda
+            muito o projeto! 💖
+          </p>
+        </article>
+      </section>
     </div>
   </div>
 
   <script>
     /*
-      IMPORTANTE:
-      Cole aqui dentro a sua lista grande atual de VTubers.
-      Ela deve começar com const vTubers = [ e terminar com ];
-      Não use },... em nenhum lugar: use apenas },
+      MANTENHA A SUA LISTA COMPLETA AQUI.
+      Não misture HTML dentro deste bloco.
     */
-
     const vTubers = [
       {
         id: 2,
@@ -1252,8 +1511,9 @@
       }
 
       /*
-        COLE TODOS OS OUTROS VTUBERS DA SUA LISTA AQUI.
-        Antes do próximo objeto, coloque vírgula depois do objeto anterior.
+        COLE O RESTANTE DOS OBJETOS DA SUA LISTA AQUI.
+        Não use },...
+        Use somente },
       */
     ];
 
@@ -1371,9 +1631,9 @@
 
           card.innerHTML = `
             <img
-              class="vtuber-avatar"
               src="${vtuber.avatar}"
               alt="Avatar de ${vtuber.name}"
+              class="vtuber-avatar"
               loading="lazy"
             >
 
@@ -1479,16 +1739,13 @@
       });
 
       const platform = gridId.replace('vtuber-grid-', '');
-      const resultado = document.getElementById(
-        `search-result-${platform}`
-      );
 
-      if (resultado) {
-        resultado.textContent =
-          letra === ''
-            ? `Mostrando todos (${quantidade})`
-            : `Letra "${letra}": ${quantidade}`;
-      }
+      document.getElementById(
+        `search-result-${platform}`
+      ).textContent =
+        letra === ''
+          ? `Mostrando todos (${quantidade})`
+          : `Letra "${letra}": ${quantidade}`;
     }
 
     function pesquisarGoogleVTuber(platform) {
